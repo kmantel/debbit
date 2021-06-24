@@ -45,6 +45,7 @@ def main():
 
     for card, merchants in CONFIG.cards.items():
         for merchant_name, merchant_conf in merchants.items():
+            print(merchant_conf)
             load_merchant(card, merchant_name, merchant_conf)
 
 
@@ -732,6 +733,11 @@ class Merchant:
         self.burst_poll_gap = merchant_config.get('advanced', {}).get('burst', {}).get('poll_gap', 300)  # 5 minutes
         self.spread_min_gap = merchant_config.get('advanced', {}).get('spread', {}).get('min_gap', 14400)  # 4 hours
         self.spread_time_variance = merchant_config.get('advanced', {}).get('spread', {}).get('time_variance', 14400)  # 4 hours
+
+        LOGGER.info(merchant_config)
+        for k, v in merchant_config.get('extras', {}).items():
+            print(k, v)
+            setattr(self, k, v)
 
 
 class Config:
